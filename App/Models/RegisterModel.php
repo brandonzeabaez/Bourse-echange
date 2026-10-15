@@ -9,23 +9,23 @@ use App\Core\Model;
  * Cette classe enregistre les informations soumises par le formulaire
  * d'inscription dans la table `User` de la base de données.
  */
-class InscriptionModel extends Model
+class RegisterModel extends Model
 {
     /** @var string Requête SQL d'insertion d'un nouvel utilisateur. */
     private string $query = 'INSERT INTO User(email, mot_de_passe, nom, prenom, pays) VALUES (:email, :mot_de_passe, :nom, :prenom, :pays)';
 
     /** @var array<string, mixed> Données à insérer en base. */
-    private array $dataInscription;
+    private array $registrationData;
 
     /**
      * @brief Constructeur du modèle d'inscription.
      *
-     * @param array<string, mixed> $dataInscription Tableau associatif contenant les informations de l'utilisateur.
+     * @param array<string, mixed> $registrationData Tableau associatif contenant les informations de l'utilisateur.
      */
-    public function __construct(array $dataInscription)
+    public function __construct(array $registrationData)
     {
         parent::__construct();
-        $this->dataInscription = $dataInscription;
+        $this->registrationData = $registrationData;
     }
 
     /**
@@ -34,6 +34,6 @@ class InscriptionModel extends Model
     public function sendFormToDB(): void
     {
         $stmt = $this->pdo->prepare($this->query);
-        $stmt->execute($this->dataInscription);
+        $stmt->execute($this->registrationData);
     }
 }

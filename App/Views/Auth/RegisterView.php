@@ -1,7 +1,7 @@
 <?php
 namespace App\Views\Auth;
 use App\Content\Enums\CountriesEnum;
-    class InscriptionView {
+    class RegisterView {
         function showForm(?string $error = null): void {
             ob_start();
             echo '<div class="card form-card">';

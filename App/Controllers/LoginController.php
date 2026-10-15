@@ -138,7 +138,7 @@ final class LoginController extends Controller
                 $userModel->saveResetToken((int) $user['id_user'], $token);
 
                 $appUrl = rtrim($_ENV['APP_URL'] ?? 'https://masae2026.alwaysdata.net/', '/');
-                $lien = $appUrl . '/reinitialiser?token=' . $token;
+                $link = $appUrl . '/reinitialiser?token=' . $token;
 
                 error_log("Test identifiants : Utilisateur=[" . $_ENV['MAIL_USERNAME'] . "] MdP longueur=" . strlen($_ENV['MAIL_PASSWORD'] ?? ''));
 
@@ -149,28 +149,28 @@ final class LoginController extends Controller
                     $mail->SMTPAuth   = true;
                     $mail->Username   = $_ENV['MAIL_USERNAME'];
                     $mail->Password   = $_ENV['MAIL_PASSWORD'];
-                    // Utilisation de SMTPS sur le port 465 calquée sur votre InscriptionController
+                    // Utilisation de SMTPS sur le port 465 calquée sur le RegisterController
                     $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
                     $mail->Port       = 465;
                     $mail->CharSet    = PHPMailer::CHARSET_UTF8;
 
                     $mail->setFrom($_ENV['MAIL_USERNAME'], 'Bourse échange');
 
-                    $prenom = $user['prenom'] ?? '';
-                    $mail->addAddress($email, $prenom);
+                    $firstName = $user['prenom'] ?? '';
+                    $mail->addAddress($email, $firstName);
 
-                    $prenomHtml = htmlspecialchars($prenom);
-                    $salutation = $prenomHtml !== '' ? "Bonjour $prenomHtml," : "Bonjour,";
+                    $firstNameHtml = htmlspecialchars($firstName);
+                    $greeting = $firstNameHtml !== '' ? "Bonjour $firstNameHtml," : "Bonjour,";
 
                     $mail->isHTML(true);
                     $mail->Subject = 'Réinitialisation de votre mot de passe';
-                    $mail->Body    = "<p>{$salutation}</p>
+                    $mail->Body    = "<p>{$greeting}</p>
                         <p>Vous avez demandé à réinitialiser votre mot de passe. Cliquez sur le lien ci-dessous :</p>
                         <p><a href='{$link}'>{$link}</a></p>
                         <p>Si vous n'êtes pas à l'origine de cette demande, ignorez simplement cet e-mail.</p>
                         <p>L'équipe SAE</p>";
 
-                    $mail->AltBody = "{$salutation}\n\nVous avez demandé à réinitialiser votre mot de passe. Cliquez sur le lien ci-dessous :\n{$link}\n\nSi vous n'êtes pas à l'origine de cette demande, ignorez simplement cet e-mail.\n\nL'équipe SAE";
+                    $mail->AltBody = "{$greeting}\n\nVous avez demandé à réinitialiser votre mot de passe. Cliquez sur le lien ci-dessous :\n{$link}\n\nSi vous n'êtes pas à l'origine de cette demande, ignorez simplement cet e-mail.\n\nL'équipe SAE";
 
                     $mail->send();
                 } catch (PHPMailerException $e) {

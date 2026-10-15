@@ -1,6 +1,6 @@
 <?php
 /**
- * @file InscriptionController.php
+ * @file RegisterController.php
  * @brief Contrôleur de la page d'inscription.
  *
  * Ce contrôleur traite l'affichage du formulaire et la soumission des
@@ -16,21 +16,21 @@ declare(strict_types=1);
 
 namespace App\Controllers;
 
-use App\Models\InscriptionModel;
-use App\Views\Auth\InscriptionView;
+use App\Models\RegisterModel;
+use App\Views\Auth\RegisterView;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\PHPMailer;
 
 /**
  * @brief Gère le flux d'inscription de l'utilisateur.
  */
-class InscriptionController
+class RegisterController
 {
-    /** @var InscriptionView Vue associée au formulaire d'inscription. */
-    private InscriptionView $view;
+    /** @var RegisterView Vue associée au formulaire d'inscription. */
+    private RegisterView $view;
 
-    /** @var InscriptionModel Modèle de persistance des données d'inscription. */
-    private InscriptionModel $model;
+    /** @var RegisterModel Modèle de persistance des données d'inscription. */
+    private RegisterModel $model;
 
     /** @var string Expression régulière de validation du mot de passe. */
     private const REGEX_PASSWORD = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/';
@@ -43,7 +43,7 @@ class InscriptionController
      */
     public function __construct()
     {
-        $this->view = new InscriptionView();
+        $this->view = new RegisterView();
     }
 
     /**
@@ -110,7 +110,7 @@ class InscriptionController
     private function sendForm(): void
     {
         try {
-            $this->model = new InscriptionModel($this->vals);
+            $this->model = new RegisterModel($this->vals);
             $this->model->sendFormToDB();
         } catch (\PDOException $e) {
             error_log($e->getMessage());
@@ -118,7 +118,7 @@ class InscriptionController
             return;
         }
 
-        $this->envoyerMailConfirmation($this->vals['email'], $this->vals['prenom']);
+        $this->sendConfirmationMail($this->vals['email'], $this->vals['prenom']);
         header('Location: /connexion');
         exit;
     }
@@ -127,9 +127,9 @@ class InscriptionController
      * @brief Envoie un e-mail de confirmation à l'utilisateur inscrit.
      *
      * @param string $email Adresse e-mail du nouvel utilisateur.
-     * @param string $prenom Prénom de l'utilisateur.
+     * @param string $firstName Prénom de l'utilisateur.
      */
-    private function envoyerMailConfirmation(string $email, string $prenom): void
+    private function sendConfirmationMail(string $email, string $firstName): void
     {
         $mail = new PHPMailer(true);
         try {
@@ -143,15 +143,15 @@ class InscriptionController
             $mail->CharSet    = PHPMailer::CHARSET_UTF8;
 
             $mail->setFrom($_ENV['MAIL_USERNAME'], 'SAE');
-            $mail->addAddress($email, $prenom);
+            $mail->addAddress($email, $firstName);
 
-            $prenomHtml = htmlspecialchars($prenom);
+            $firstNameHtml = htmlspecialchars($firstName);
             $mail->isHTML(true);
             $mail->Subject = 'Confirmation de votre inscription';
-            $mail->Body    = "<p>Bonjour $prenomHtml,</p>
+            $mail->Body    = "<p>Bonjour $firstNameHtml,</p>
                 <p>Votre inscription a bien été prise en compte. Vous pouvez dès maintenant vous connecter avec votre adresse e-mail.</p>
                 <p>L'équipe SAE</p>";
-            $mail->AltBody = "Bonjour $prenom,\n\nVotre inscription a bien été prise en compte. "
+            $mail->AltBody = "Bonjour $firstName,\n\nVotre inscription a bien été prise en compte. "
                 . "Vous pouvez dès maintenant vous connecter avec votre adresse e-mail.\n\nL'équipe SAE";
 
             $mail->send();
