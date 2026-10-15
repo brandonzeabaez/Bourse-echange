@@ -83,19 +83,20 @@ class InscriptionController
     /**
      * @brief Traite la soumission du formulaire d'inscription.
      */
-    private function handlePost(): void
-    {
+    private function handlePost() : void {
         if (!$this->passwordValidation()) {
-            $this->view->showForm('Le mot de passe doit contenir au moins 8 caractères, une majuscule, un chiffre et un caractère spécial (@ $ ! % * ? &), et les deux saisies doivent être identiques.');
+            $this->view->showForm(
+                'Le mot de passe doit contenir au moins 8 caractères, une majuscule, un chiffre et un caractère spécial (@ $ ! % * ? &), et les deux saisies doivent être identiques.',
+                $_POST // <-- On renvoie les données saisies à la vue
+            );
             return;
         }
-
         $this->vals = [
             'email' => $_POST['email'],
             'mot_de_passe' => password_hash($_POST['password'], PASSWORD_DEFAULT),
             'nom' => $_POST['nom'],
             'prenom' => $_POST['prenom'],
-            'pays' => $_POST['pays'],
+            'pays' => $_POST['pays']
         ];
 
         $this->sendForm();
@@ -107,18 +108,16 @@ class InscriptionController
      * En cas d'erreur de persistance, l'utilisateur reste sur le formulaire
      * avec un message explicite.
      */
-    private function sendForm(): void
-    {
+    private function sendForm() : void {
         try {
             $this->model = new InscriptionModel($this->vals);
             $this->model->sendFormToDB();
         } catch (\PDOException $e) {
             error_log($e->getMessage());
-            $this->view->showForm('Le mail saisi est invalide ou est déjà utilisé');
+            // Si l'email est déjà utilisé, on renvoie aussi $_POST pour ne pas tout effacer
+            $this->view->showForm('Le mail saisi est invalide ou est déjà utilisé', $_POST);
             return;
         }
-
-        $this->envoyerMailConfirmation($this->vals['email'], $this->vals['prenom']);
         header('Location: /connexion');
         exit;
     }
