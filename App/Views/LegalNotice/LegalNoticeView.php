@@ -1,6 +1,6 @@
 <?php
 /**
- * @file MentionsLegalesView.php
+ * @file LegalNoticeView.php
  * @brief Vue affichant les mentions légales du site.
  *
  * Cette vue décrit l'éditeur du site, la gestion des données personnelles
@@ -15,7 +15,7 @@
 
 declare(strict_types=1);
 
-namespace App\Views\MentionsLegales;
+namespace App\Views\LegalNotice;
 
 /**
  * @brief Vue affichant les mentions légales du site.
@@ -23,7 +23,7 @@ namespace App\Views\MentionsLegales;
  * Cette vue décrit l'éditeur du site, la gestion des données personnelles
  * et les informations relatives à l'utilisation des sessions.
  */
-class MentionsLegalesView
+class LegalNoticeView
 {
     /**
      * @brief Rendu HTML de la page des mentions légales.

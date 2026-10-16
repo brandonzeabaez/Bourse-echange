@@ -1,8 +1,8 @@
 <?php
 namespace App\Views\Auth;
-use App\Content\Enums\countriesEnum;
+use App\Content\Enums\CountriesEnum;
 
-class InscriptionView {
+class RegisterView {
     public function showForm(?string $error = null, array $old = []): void {
         // Récupération et sécurisation des anciennes valeurs
         $nom    = htmlspecialchars($old['nom'] ?? '');
@@ -28,7 +28,7 @@ class InscriptionView {
         echo '<select id="pays" name="pays" required>';
         echo '<option value=""> Choisir un pays </option>';
 
-        foreach (countriesEnum::cases() as $country) {
+        foreach (CountriesEnum::cases() as $country) {
             // Si le pays de la boucle correspond à celui qui avait été choisi, on ajoute "selected"
             $selected = ($pays === $country->value) ? ' selected' : '';
             echo '<option value="' . htmlspecialchars($country->value) . '"' . $selected . '>' . htmlspecialchars($country->name) . '</option>';

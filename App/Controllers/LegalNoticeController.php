@@ -1,6 +1,6 @@
 <?php
 /**
- * @file MentionsLegalesController.php
+ * @file LegalNoticeController.php
  * @brief Contrôleur de la page des mentions légales.
  *
  * Il affiche la vue dédiée aux informations légales et réglementaires
@@ -17,7 +17,7 @@ declare(strict_types=1);
 
 namespace App\Controllers;
 
-use App\Views\MentionsLegales\MentionsLegalesView;
+use App\Views\LegalNotice\LegalNoticeView;
 
 /**
  * @brief Contrôleur de la page des mentions légales.
@@ -25,13 +25,13 @@ use App\Views\MentionsLegales\MentionsLegalesView;
  * Il affiche la vue dédiée aux informations légales et réglementaires
  * relatives au site.
  */
-class MentionsLegalesController
+class LegalNoticeController
 {
     /**
      * @brief Affiche la page des mentions légales.
      */
     public function execute(): void
     {
-        (new MentionsLegalesView())->show();
+        (new LegalNoticeView())->show();
     }
 }
