@@ -24,63 +24,36 @@ namespace App\Core;
  */
 class Router
 {
-    /** @var array<string, string> Tableau des routes indexées par leur URL. */
-    private array $routes = [];
-
-    /**
-     * @brief Constructeur du routeur.
-     *
-     * Charge immédiatement la configuration des routes.
-     */
-    public function __construct()
-    {
-        $this->loadRoutes();
+    private const ROUTE_ERROR = 'App\\Controllers\\PageNotFound';
+    private const ROUTE_HOME = 'App\\Controllers\\HomeController';
+  
+    public function __construct() {
+        $this->loadRoute();
     }
-
-    /**
-     * @brief Lit le fichier JSON des routes et les enregistre en mémoire.
-     *
-     * @throws \Exception Si le fichier de configuration des routes est absent.
-     */
-    public function loadRoutes(): void
-    {
-        $file = __DIR__ . "/../../config/routes.json";
-
-        if (file_exists($file)) {
-            $json = json_decode(file_get_contents($file), true);
-            $data_routes = $json["routes"] ?? [];
-
-            foreach ($data_routes as $route) {
-                $this->routes[$route["url"]] = $route["controller"];
+    private function loadRoute() : void {
+        $url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+        if ($url === '/') {
+            $controller = self::ROUTE_HOME;
+            (new $controller())->execute();
+            return;
+        }
+        
+        $args = explode('/', trim($url, '/'));
+        $route = $route = 'App\\Controllers\\' . str_replace('_', '', ucwords($args[0], '_'));
+        $method = $args[1] ?? 'execute';
+        $options = array_slice($args, 2);
+        if (class_exists($route) && method_exists($route, $method)) {
+            try {
+                (new $route())->$method(...$options);
+                return;
+            } catch (\Error $e) {
+                $controller = self::ROUTE_ERROR;
+                (new $controller())->execute();
+                return;
             }
-        } else {
-            throw new \Exception("Routes file not found");
-        }
-    }
+        } 
+        $controller = self::ROUTE_ERROR;
+        (new $controller())->execute();
 
-    /**
-     * @brief Détermine le contrôleur à exécuter selon l'URL demandée.
-     *
-     * Si aucune route ne correspond, une page 404 est affichée.
-     */
-    public function route(): void
-    {
-        $url = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
-
-        if (isset($this->routes[$url])) {
-            $this->loadHandler($this->routes[$url]);
-        } else {
-            echo 'error 404 page ' . $_SERVER['REQUEST_URI'] . ' not found';
-        }
-    }
-
-    /**
-     * @brief Instancie et exécute un contrôleur associé à une route.
-     *
-     * @param string $handler Nom complet de la classe contrôleur.
-     */
-    public function loadHandler(string $handler): void
-    {
-        (new $handler())->execute();
     }
 }
