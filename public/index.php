@@ -13,4 +13,3 @@ $dotenv->safeLoad();
 
 // routeur regarde l'URL lance contrôleur
 $router = new App\Core\Router();
-$router->route();
