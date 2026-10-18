@@ -116,7 +116,7 @@ final class Login extends Controller
         setcookie(session_name(), '', time() - 3600, '/');
         session_destroy();
 
-        $this->redirect('/connexion');
+        $this->redirect('/Login');
     }
 
     /**

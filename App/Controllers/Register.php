@@ -120,7 +120,7 @@ class Register
         }
 
         $this->sendConfirmationMail($this->vals['email'], $this->vals['prenom']);
-        header('Location: /connexion');
+        header('Location: /Login');
         exit;
     }
 
