@@ -3,14 +3,14 @@ declare(strict_types=1);
 
 namespace App\Controllers;
 
-use App\Views\home\HomeView;
+use App\Views\Home\HomeView;
 
 /**
  * @brief Contrôleur de la page d'accueil.
  *
  * Il délègue l'affichage de la vue d'accueil au composant HomeView.
  */
-class HomeController
+class Home
 {
     /**
      * @brief Affiche la page d'accueil du site.

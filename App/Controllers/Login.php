@@ -1,6 +1,6 @@
 <?php
 /**
- * @file LoginController.php
+ * @file Login.php
  * @brief Contrôleur principal de l'authentification et des mots de passe.
  *
  * Il gère les actions de connexion, déconnexion, mot de passe oublié et
@@ -28,7 +28,7 @@ use PHPMailer\PHPMailer\Exception as PHPMailerException;
  * Il gère les actions de connexion, déconnexion, mot de passe oublié et
  * réinitialisation du mot de passe.
  */
-final class LoginController extends Controller
+final class Login extends Controller
 {
     /**
      * @brief Traite l'URL demandée et délègue vers la bonne action.
@@ -149,7 +149,7 @@ final class LoginController extends Controller
                     $mail->SMTPAuth   = true;
                     $mail->Username   = $_ENV['MAIL_USERNAME'];
                     $mail->Password   = $_ENV['MAIL_PASSWORD'];
-                    // Utilisation de SMTPS sur le port 465 calquée sur le RegisterController
+                    // Utilisation de SMTPS sur le port 465 calquée sur le Register
                     $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
                     $mail->Port       = 465;
                     $mail->CharSet    = PHPMailer::CHARSET_UTF8;

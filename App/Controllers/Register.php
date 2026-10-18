@@ -1,6 +1,6 @@
 <?php
 /**
- * @file RegisterController.php
+ * @file Register.php
  * @brief Contrôleur de la page d'inscription.
  *
  * Ce contrôleur traite l'affichage du formulaire et la soumission des
@@ -24,7 +24,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 /**
  * @brief Gère le flux d'inscription de l'utilisateur.
  */
-class RegisterController
+class Register
 {
     /** @var RegisterView Vue associée au formulaire d'inscription. */
     private RegisterView $view;

@@ -1,4 +1,4 @@
-<?php namespace App\Views\home; ?>
+<?php namespace App\Views\Home; ?>
     <?php
 class HomeView {
     function showHome(): void {

@@ -28,7 +28,7 @@ class Router
     private const ROUTE_ERROR = 'App\\Controllers\\PageNotFound';
 
     /** @brief Classe du contrôleur associé à la page d'accueil. */
-    private const ROUTE_HOME = 'App\\Controllers\\HomeController';
+    private const ROUTE_HOME = 'App\\Controllers\\Home';
 
     /**
      * @brief Initialise le routeur et résout la requête courante.
@@ -55,7 +55,7 @@ class Router
         }
         
         $args = explode('/', trim($url, '/'));
-        $route = $route = 'App\\Controllers\\' . str_replace('_', '', ucwords($args[0], '_'));
+        $route = $route = 'App\\Controllers\\' . str_replace('-', '', ucwords($args[0], '-'));
         $method = $args[1] ?? 'execute';
         $options = array_slice($args, 2);
         if (class_exists($route) && method_exists($route, $method)) {

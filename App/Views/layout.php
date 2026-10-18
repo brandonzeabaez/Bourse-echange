@@ -40,7 +40,7 @@ declare(strict_types=1);
         <p>Aix-Marseille Université IUT </p>
         <p>Donner une seconde vie au matériels de l'IUT, simplement et localement.</p>
         <ul>
-            <li><a href="/mentions-legales">Mentions légales</a></li>
+            <li><a href="/legal-notice">Mentions légales</a></li>
         </ul>
     </footer>
 </body>
