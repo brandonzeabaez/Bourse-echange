@@ -24,12 +24,28 @@ namespace App\Core;
  */
 class Router
 {
+    /** @brief Classe du contrôleur utilisé lorsqu'une route est introuvable. */
     private const ROUTE_ERROR = 'App\\Controllers\\PageNotFound';
+
+    /** @brief Classe du contrôleur associé à la page d'accueil. */
     private const ROUTE_HOME = 'App\\Controllers\\HomeController';
-  
+
+    /**
+     * @brief Initialise le routeur et résout la requête courante.
+     */
     public function __construct() {
         $this->loadRoute();
     }
+
+    /**
+     * @brief Résout l'URL demandée et exécute l'action correspondante.
+     *
+     * La première partie du chemin désigne le contrôleur et la deuxième
+     * désigne la méthode. Les segments restants sont transmis comme arguments.
+     * Si le contrôleur ou la méthode n'existe pas, la page 404 est affichée.
+     *
+     * @return void
+     */
     private function loadRoute() : void {
         $url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
         if ($url === '/') {
