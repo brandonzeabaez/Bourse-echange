@@ -1,6 +1,6 @@
 <?php
 /**
- * @file LegalNoticeController.php
+ * @file LegalNotice.php
  * @brief Contrôleur de la page des mentions légales.
  *
  * Il affiche la vue dédiée aux informations légales et réglementaires
@@ -25,7 +25,7 @@ use App\Views\LegalNotice\LegalNoticeView;
  * Il affiche la vue dédiée aux informations légales et réglementaires
  * relatives au site.
  */
-class LegalNoticeController
+class LegalNotice
 {
     /**
      * @brief Affiche la page des mentions légales.
